@@ -39,6 +39,22 @@ double DriverStim300::getGyroZ() const noexcept { return sensor_data_.gyro[2]; }
 double DriverStim300::getIncX() const noexcept { return sensor_data_.incl[0]; }
 double DriverStim300::getIncY() const noexcept { return sensor_data_.incl[1]; }
 double DriverStim300::getIncZ() const noexcept { return sensor_data_.incl[2]; }
+
+Eigen::Vector3d DriverStim300::getAccData()
+{
+    return Eigen::Vector3d (this->sensor_data_.acc[0], this->sensor_data_.acc[1], this->sensor_data_.acc[2]);
+}
+
+Eigen::Vector3d DriverStim300::getGyroData()
+{
+    return Eigen::Vector3d (this->sensor_data_.gyro[0], this->sensor_data_.gyro[1], this->sensor_data_.gyro[2]);
+}
+
+Eigen::Vector3d DriverStim300::getInclData()
+{
+    return Eigen::Vector3d (this->sensor_data_.incl[0], this->sensor_data_.incl[1], this->sensor_data_.incl[2]);
+}
+
 uint16_t DriverStim300::getSampleRate() const noexcept {
   return stim_const::sampleFreq2int(sensor_config_.sample_freq);
 }

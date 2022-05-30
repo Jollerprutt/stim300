@@ -7,6 +7,7 @@
 #include "../src/stim300_constants.h"
 #include <boost/crc.hpp>
 #include <vector>
+#include <eigen3/Eigen/Geometry> 
 
 enum class Stim300Status {
   NORMAL,
@@ -44,6 +45,19 @@ public:
   double getIncX() const noexcept;
   double getIncY() const noexcept;
   double getIncZ() const noexcept;
+
+  /** \brief Return the Accelerometers values
+   */
+  Eigen::Vector3d getAccData();
+
+  /** \brief Return the Gyroscopes values
+   */
+  Eigen::Vector3d getGyroData();
+
+  /** \brief Return the Inclinometers values
+   */
+  Eigen::Vector3d getInclData();
+  
   uint16_t getSampleRate() const noexcept;
 
   uint16_t getLatency_us() const noexcept;
