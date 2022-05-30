@@ -66,7 +66,7 @@ int main(int argc, char **argv) {
   ros::Rate loop_rate(sample_rate);
 
   try {
-    SerialUnix serial_driver(imu_path);
+    SerialUnix serial_driver(imu_path, stim_const::BaudRate::BAUD_921600);
     DriverStim300 driver_stim300(serial_driver);
 
     ROS_INFO("STIM300 IMU driver initialized successfully");
