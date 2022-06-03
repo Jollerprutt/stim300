@@ -78,44 +78,48 @@ int main(int argc, char **argv) {
       case Stim300Status::OUTSIDE_OPERATING_CONDITIONS:
         ROS_DEBUG("Stim 300 outside operating conditions");
       case Stim300Status::NEW_MEASURMENT:
-        stim300msg.header.stamp = ros::Time::now();
-        // stim300msg.linear_acceleration.x = driver_stim300.getAccX() * gravity;
-        // stim300msg.linear_acceleration.y = driver_stim300.getAccY() * gravity;
-        // stim300msg.linear_acceleration.z = driver_stim300.getAccZ() * gravity;
-        // stim300msg.angular_velocity.x = driver_stim300.getGyroX();
-        // stim300msg.angular_velocity.y = driver_stim300.getGyroY();
-        // stim300msg.angular_velocity.z = driver_stim300.getGyroZ();
-        Eigen::Vector3d linear_acceleration = driver_stim300.getAccData();
-        Eigen::Vector3d gyro_velocities = driver_stim300.getGyroData();
-        Eigen::Vector3d incl_acceleration = driver_stim300.getInclData();
+        {
+          stim300msg.header.stamp = ros::Time::now();
+          // stim300msg.linear_acceleration.x = driver_stim300.getAccX() * gravity;
+          // stim300msg.linear_acceleration.y = driver_stim300.getAccY() * gravity;
+          // stim300msg.linear_acceleration.z = driver_stim300.getAccZ() * gravity;
+          // stim300msg.angular_velocity.x = driver_stim300.getGyroX();
+          // stim300msg.angular_velocity.y = driver_stim300.getGyroY();
+          // stim300msg.angular_velocity.z = driver_stim300.getGyroZ();
+          Eigen::Vector3d linear_acceleration = driver_stim300.getAccData();
+          Eigen::Vector3d gyro_velocities = driver_stim300.getGyroData();
+          Eigen::Vector3d incl_acceleration = driver_stim300.getInclData();
 
-        Eigen::Quaterniond orientation = estimate_orientation(incl_acceleration);
+          Eigen::Quaterniond orientation = estimate_orientation(incl_acceleration);
 
-        stim300msg.linear_acceleration.x = linear_acceleration[0];
-        stim300msg.linear_acceleration.y = linear_acceleration[1];
-        stim300msg.linear_acceleration.z = linear_acceleration[2];
+          stim300msg.linear_acceleration.x = linear_acceleration[0];
+          stim300msg.linear_acceleration.y = linear_acceleration[1];
+          stim300msg.linear_acceleration.z = linear_acceleration[2];
 
-        stim300msg.angular_velocity.x = gyro_velocities[0];
-        stim300msg.angular_velocity.y = gyro_velocities[1];
-        stim300msg.angular_velocity.z = gyro_velocities[2];
+          stim300msg.angular_velocity.x = gyro_velocities[0];
+          stim300msg.angular_velocity.y = gyro_velocities[1];
+          stim300msg.angular_velocity.z = gyro_velocities[2];
 
-        stim300msg.orientation.x = orientation.x();
-        stim300msg.orientation.y = orientation.y();
-        stim300msg.orientation.z = orientation.z();
-        stim300msg.orientation.w = orientation.w();
+          stim300msg.orientation.x = orientation.x();
+          stim300msg.orientation.y = orientation.y();
+          stim300msg.orientation.z = orientation.z();
+          stim300msg.orientation.w = orientation.w();
 
-        // stim300msg.linear_acceleration.x = driver_stim300.getAccX() + 0.0023;
-        // stim300msg.linear_acceleration.y = driver_stim300.getAccY() + 0.05;
-        // stim300msg.linear_acceleration.z = driver_stim300.getAccZ() + 0.027;
-        // stim300msg.angular_velocity.x = driver_stim300.getGyroX();
-        // stim300msg.angular_velocity.y = driver_stim300.getGyroY();
-        // stim300msg.angular_velocity.z = driver_stim300.getGyroZ();
-        imuSensorPublisher.publish(stim300msg);
+          // stim300msg.linear_acceleration.x = driver_stim300.getAccX() + 0.0023;
+          // stim300msg.linear_acceleration.y = driver_stim300.getAccY() + 0.05;
+          // stim300msg.linear_acceleration.z = driver_stim300.getAccZ() + 0.027;
+          // stim300msg.angular_velocity.x = driver_stim300.getGyroX();
+          // stim300msg.angular_velocity.y = driver_stim300.getGyroY();
+          // stim300msg.angular_velocity.z = driver_stim300.getGyroZ();
+          imuSensorPublisher.publish(stim300msg);
+        }
         break;
       case Stim300Status::CONFIG_CHANGED:
-        ROS_INFO("Updated Stim 300 imu config: ");
-        ROS_INFO("%s", driver_stim300.printSensorConfig().c_str());
-        loop_rate = driver_stim300.getSampleRate() * 2;
+        {
+          ROS_INFO("Updated Stim 300 imu config: ");
+          ROS_INFO("%s", driver_stim300.printSensorConfig().c_str());
+          loop_rate = driver_stim300.getSampleRate() * 2;
+        }
         break;
       case Stim300Status::STARTING_SENSOR:
         ROS_INFO("Stim 300 IMU is warming up.");
